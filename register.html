@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Sports Buddy · Register</title>
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%230b6efd'/%3E%3Ctext x='50' y='60' font-size='42' text-anchor='middle' fill='white' font-family='Arial, sans-serif'%3ES%3C/text%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+    <header class="app-header">
+        <div>
+            <h1>Sports Buddy</h1>
+            <p class="tagline">Find partners, plan matches, and grow your sports network.</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="auth-container">
+            <section id="auth-section" class="card auth-card">
+                <div class="auth-header">
+                    <div class="auth-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h2>Join Sports Buddy</h2>
+                    <p>Create your account and start connecting with athletes</p>
+                </div>
+
+                <form id="register-form" class="auth-form">
+                    <label>
+                        Full Name
+                        <input id="register-name" placeholder="Enter your full name" required />
+                    </label>
+                    <label>
+                        Email Address
+                        <input id="register-email" type="email" placeholder="Enter your email" required />
+                    </label>
+                    <label>
+                        Password
+                        <div class="password-field">
+                            <input id="register-password" type="password" placeholder="Create a strong password (min. 6 characters)" required />
+                            <button type="button" class="text-btn" data-toggle-password="register-password">Show</button>
+                        </div>
+                    </label>
+                    <label>
+                        Confirm Password
+                        <input id="register-password-confirm" type="password" placeholder="Confirm your password" required />
+                    </label>
+                    <label>
+                        Skill Level
+                        <select id="register-skill">
+                            <option value="casual">⭐ Casual - Just for fun</option>
+                            <option value="intermediate">⚡ Intermediate - Regular player</option>
+                            <option value="competitive">🏆 Competitive - Serious athlete</option>
+                        </select>
+                    </label>
+                    
+                    <button type="submit" class="primary full">Create Account</button>
+                </form>
+
+                <div id="message-area" class="status" hidden></div>
+                
+                <div class="auth-divider">
+                    <span>Already have an account?</span>
+                </div>
+                
+                <a href="login.html" class="btn-secondary full">Sign In</a>
+            </section>
+        </div>
+    </main>
+
+    <script type="module">
+        import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
+        import { auth } from './js/firebase.js';
+        import { initUI } from './js/ui.js';
+
+        // Redirect logic removed to prevent race conditions
+        // The UI handler will handle redirection after registration is complete
+
+        initUI();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Sports Buddy · Login</title>
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%230b6efd'/%3E%3Ctext x='50' y='60' font-size='42' text-anchor='middle' fill='white' font-family='Arial, sans-serif'%3ES%3C/text%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+    <header class="app-header">
+        <div>
+            <h1>Sports Buddy</h1>
+            <p class="tagline">Find partners, plan matches, and grow your sports network.</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="auth-container">
+            <section id="auth-section" class="card auth-card">
+                <div class="auth-header">
+                    <div class="auth-icon">
+                        <i class="fas fa-sign-in-alt"></i>
+                    </div>
+                    <h2>Welcome Back</h2>
+                    <p>Sign in to your Sports Buddy account</p>
+                </div>
+
+                <form id="login-form" class="auth-form">
+                    <label>
+                        Email Address
+                        <input id="login-email" type="email" placeholder="Enter your email" required />
+                    </label>
+                    <label>
+                        Password
+                        <div class="password-field">
+                            <input id="login-password" type="password" placeholder="Enter your password" required />
+                            <button type="button" class="text-btn" data-toggle-password="login-password">Show</button>
+                        </div>
+                    </label>
+                    
+                    <button type="submit" class="primary full">Sign In</button>
+                    
+                    <div class="auth-footer">
+                        <button type="button" id="btn-forgot-password" class="text-btn">Forgot your password?</button>
+                    </div>
+                </form>
+
+                <div id="message-area" class="status" hidden></div>
+                
+                <div class="auth-divider">
+                    <span>New to Sports Buddy?</span>
+                </div>
+                
+                <a href="register.html" class="btn-secondary full">Create Account</a>
+            </section>
+        </div>
+    </main>
+
+    <script type="module">
+        import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
+        import { auth } from './js/firebase.js';
+        import { initUI } from './js/ui.js';
+
+        // Redirect logic removed to prevent race conditions
+        // The UI handler will handle redirection after login is complete
+
+        initUI();
+
+        // Show success message if redirected from registration
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('registered') === 'true') {
+            const messageArea = document.getElementById('message-area');
+            if (messageArea) {
+                messageArea.textContent = 'Account created successfully! Please login with your credentials.';
+                messageArea.className = 'status success';
+                messageArea.hidden = false;
+                // Clear URL parameter
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        }
+    </script>
+</body>
+
+</html>

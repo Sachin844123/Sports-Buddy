@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Sports Buddy - Find Your Perfect Sports Partner</title>
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%230b6efd'/%3E%3Ctext x='50' y='60' font-size='42' text-anchor='middle' fill='white' font-family='Arial, sans-serif'%3ES%3C/text%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/landing.css" />
+</head>
+
+<body class="landing-page">
+    <header class="hero-header">
+        <nav class="landing-nav">
+            <div class="nav-brand">
+                <div class="brand-icon">S</div>
+                <span class="brand-text">Sports Buddy</span>
+            </div>
+            <div class="nav-actions">
+                <a href="login.html" class="nav-link">Login</a>
+                <a href="register.html" class="btn-primary">Get Started</a>
+            </div>
+        </nav>
+
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">Find Your Perfect Sports Partner</h1>
+                <p class="hero-subtitle">Connect with local athletes, organize matches, and build your sports community. Whether you're casual or competitive, there's a buddy waiting for you.</p>
+                <div class="hero-actions">
+                    <a href="register.html" class="btn-hero-primary">Join the Community</a>
+                    <a href="login.html" class="btn-hero-secondary">Sign In</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-card">
+                    <div class="card-header">
+                        <div class="card-avatar">
+                            <i class="fas fa-shuttlecock"></i>
+                        </div>
+                        <div class="card-info">
+                            <h4>Badminton Doubles</h4>
+                            <p>Today, 6:00 PM</p>
+                        </div>
+                    </div>
+                    <div class="card-location">
+                        <i class="fas fa-map-marker-alt"></i> Bandra West, Mumbai
+                    </div>
+                    <div class="card-players">
+                        <div class="player-avatars">
+                            <div class="avatar">A</div>
+                            <div class="avatar">B</div>
+                            <div class="avatar plus">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                        </div>
+                        <span>2/4 players</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="landing-main">
+        <section class="features-section">
+            <div class="container">
+                <h2 class="section-title">Why Choose Sports Buddy?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-search-location"></i>
+                        </div>
+                        <h3>Find Local Matches</h3>
+                        <p>Discover sports events and matches happening in your neighborhood. Filter by sport, skill level, and location.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Build Your Network</h3>
+                        <p>Connect with like-minded athletes and build lasting friendships through shared sports experiences.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-calendar-plus"></i>
+                        </div>
+                        <h3>Organize Events</h3>
+                        <p>Create and manage your own sports events. Set the time, location, and requirements for the perfect match.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats-section">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Active Players</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">Sports Available</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">1000+</div>
+                        <div class="stat-label">Matches Organized</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">25+</div>
+                        <div class="stat-label">Cities Covered</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="container">
+                <div class="cta-content">
+                    <h2>Ready to Find Your Sports Buddy?</h2>
+                    <p>Join thousands of athletes who have found their perfect sports partners through our platform.</p>
+                    <a href="register.html" class="btn-cta">Start Playing Today</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="landing-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="brand-icon">S</div>
+                    <span class="brand-text">Sports Buddy</span>
+                </div>
+                <div class="footer-links">
+                    <a href="login.html">Login</a>
+                    <a href="register.html">Register</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Sports Buddy. Built for athletes, by athletes.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module">
+        // Check if user is already logged in and redirect
+        import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
+        import { auth } from './js/firebase.js';
+        import { fetchUserProfile } from './js/auth.js';
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                try {
+                    const profile = await fetchUserProfile(user.uid);
+                    if (profile) {
+                        // User is logged in, redirect to appropriate dashboard
+                        if (profile.role === 'admin') {
+                            window.location.href = 'admin-dashboard.html';
+                        } else {
+                            window.location.href = 'home.html';
+                        }
+                    }
+                } catch (error) {
+                    console.error('Profile fetch error:', error);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

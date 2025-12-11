@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Sports Buddy · Home</title>
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%230b6efd'/%3E%3Ctext x='50' y='60' font-size='42' text-anchor='middle' fill='white' font-family='Arial, sans-serif'%3ES%3C/text%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+    <header class="app-header">
+        <div>
+            <h1>Sports Buddy</h1>
+            <p class="tagline">Find partners, plan matches, and grow your sports network.</p>
+        </div>
+        <nav class="main-nav">
+            <a href="#" id="nav-home" class="active">Home</a>
+            <button id="btn-logout" class="ghost-btn">Logout</button>
+            <span id="user-area" class="user-pill"></span>
+        </nav>
+    </header>
+
+    <main>
+        <section id="role-banner" class="card welcome-card" hidden>
+            <div class="welcome-content">
+                <div class="welcome-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="welcome-text">
+                    <h3 id="role-title"></h3>
+                    <p id="role-copy"></p>
+                </div>
+                <div class="role-actions">
+                    <span id="role-chip" class="chip"></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Events Section -->
+        <section id="event-section" class="card main-content">
+            <div class="section-head">
+                <div class="section-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <div class="section-info">
+                    <h2>Discover Sports Events</h2>
+                    <p>Find and join exciting sports activities in your area</p>
+                </div>
+            </div>
+
+            <div class="location-filters">
+                <div class="filter-header">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Set Your Location</span>
+                </div>
+                <div class="grid two-col">
+                    <label>
+                        <i class="fas fa-city"></i>
+                        City
+                        <input id="ev-city" placeholder="e.g., Mumbai" />
+                    </label>
+                    <label>
+                        <i class="fas fa-map-pin"></i>
+                        Area
+                        <input id="ev-area" placeholder="e.g., Bandra West" />
+                    </label>
+                </div>
+                <div class="form-row">
+                    <button id="btn-refresh-events" class="primary">
+                        <i class="fas fa-search"></i>
+                        Find Events
+                    </button>
+                </div>
+            </div>
+
+            <div id="event-feedback" class="status compact" hidden></div>
+            <div id="events-list" class="events-container"></div>
+        </section>
+
+        <!-- Dashboard Widgets Grid -->
+        <div class="dashboard-widgets">
+            <section class="card quick-actions">
+                <div class="section-head">
+                    <div class="section-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="section-info">
+                        <h2>Quick Actions</h2>
+                        <p>Get started with these common tasks</p>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button class="action-btn" onclick="document.getElementById('ev-city').focus()">
+                        <div class="action-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="action-content">
+                            <span class="action-text">Find Events</span>
+                            <span class="action-desc">Search for nearby activities</span>
+                        </div>
+                    </button>
+                    <button class="action-btn" onclick="scrollToCreateEvent()">
+                        <div class="action-icon">
+                            <i class="fas fa-plus-circle"></i>
+                        </div>
+                        <div class="action-content">
+                            <span class="action-text">Create Event</span>
+                            <span class="action-desc">Organize a new match</span>
+                        </div>
+                    </button>
+                    <button class="action-btn" onclick="showProfile()">
+                        <div class="action-icon">
+                            <i class="fas fa-user-cog"></i>
+                        </div>
+                        <div class="action-content">
+                            <span class="action-text">My Profile</span>
+                            <span class="action-desc">Update your information</span>
+                        </div>
+                    </button>
+                </div>
+            </section>
+
+            <section class="card stats-widget">
+                <div class="section-head">
+                    <div class="section-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="section-info">
+                        <h2>Your Activity</h2>
+                        <p>Track your sports journey</p>
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="events-joined">0</span>
+                            <span class="stat-label">Events Joined</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="events-created">0</span>
+                            <span class="stat-label">Events Created</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card recent-activity">
+                <div class="section-head">
+                    <div class="section-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <div class="section-info">
+                        <h2>Recent Activity</h2>
+                        <p>Your latest sports activities</p>
+                    </div>
+                </div>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-calendar-plus"></i>
+                        </div>
+                        <div class="activity-content">
+                            <span class="activity-text">Welcome to Sports Buddy!</span>
+                            <span class="activity-time">Just now</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card event-suggestions">
+                <div class="section-head">
+                    <div class="section-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="section-info">
+                        <h2>Event Suggestions</h2>
+                        <p>Discover popular events from our community</p>
+                    </div>
+                </div>
+                <div id="suggestions-list" class="suggestions-container">
+                    <div class="loading-suggestions">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        Loading suggestions...
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script type="module">
+        // Hide content until verified
+        document.body.style.display = 'none';
+
+        // Redirect protection - ensure user is logged in
+        import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
+        import { auth } from './js/firebase.js';
+
+        onAuthStateChanged(auth, (user) => {
+            try {
+                if (!user) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                // User authenticated, show page
+                document.body.style.display = '';
+            } catch (error) {
+                console.error('Home auth error:', error);
+                window.location.href = 'login.html';
+            }
+        });
+    </script>
+    <script type="module">
+        import './js/firebase.js';
+        import { initUI } from './js/ui.js';
+        initUI();
+    </script>
+    <script>
+        function scrollToCreateEvent() {
+            // Focus on the city input to start the event discovery process
+            document.getElementById('ev-city').focus();
+            // Smooth scroll to the location filters
+            document.querySelector('.location-filters').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+            });
+        }
+        
+        function showProfile() {
+            // Show a more professional modal-style alert
+            if (confirm('Profile management is coming soon!\n\nWould you like to be notified when this feature is available?')) {
+                alert('Thank you! We\'ll notify you when profile management is ready.');
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sports Buddy - Find Your Perfect Sports Partner</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+  <div style="display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column;">
+    <p>Loading...</p>
+    <div class="spinner"
+      style="border: 4px solid #f3f3f3; border-top: 4px solid #0b6efd; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite;">
+    </div>
+  </div>
+
+  <style>
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+
+  <script type="module">
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+    import { auth } from "./js/firebase.js";
+    import { fetchUserProfile } from "./js/auth.js";
+
+    // Enhanced redirector with proper landing page
+    onAuthStateChanged(auth, async (user) => {
+      try {
+        if (!user) {
+          // Not logged in → redirect to landing page
+          window.location.href = "landing.html";
+          return;
+        }
+
+        // User logged in → fetch profile BEFORE redirect
+        const profile = await fetchUserProfile(user.uid);
+
+        if (!profile) {
+          console.error("User profile not found");
+          // Profile doesn't exist, logout and go to landing
+          await auth.signOut();
+          window.location.href = "landing.html";
+          return;
+        }
+
+        // Profile fetched successfully, now redirect based on role
+        if (profile.role === 'admin') {
+          window.location.href = "admin-dashboard.html";
+        } else {
+          window.location.href = "home.html";
+        }
+      } catch (error) {
+        console.error("Redirect error:", error);
+        // On error, default to landing page
+        window.location.href = "landing.html";
+      }
+    });
+  </script>
+</body>
+
+</html>

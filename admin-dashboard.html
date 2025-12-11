@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sports Buddy · Admin</title>
+  <link rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%230b6efd'/%3E%3Ctext x='50' y='60' font-size='42' text-anchor='middle' fill='white' font-family='Arial, sans-serif'%3ES%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+  <header class="app-header">
+    <div>
+      <h1>Sports Buddy · Admin Console</h1>
+      <p class="tagline">Curate sports, cities, and areas for the community.</p>
+    </div>
+    <nav class="main-nav">
+      <a href="home.html">Back to app</a>
+      <button id="btn-logout" class="ghost-btn">Logout</button>
+    </nav>
+  </header>
+  <main>
+    <!-- Main Event Management Section -->
+    <section id="event-section" class="card admin-main-section">
+      <div class="section-head">
+        <div class="section-icon">
+          <i class="fas fa-calendar-alt"></i>
+        </div>
+        <div class="section-info">
+          <h2>Event Management</h2>
+          <p>Create, edit, and manage community sports events</p>
+        </div>
+      </div>
+      
+      <div class="admin-form">
+        <div class="grid two-col">
+          <label>
+            <i class="fas fa-tag"></i>
+            Event Name
+            <input id="ev-name" placeholder="5v5 Football Night" />
+          </label>
+          <label>
+            <i class="fas fa-trophy"></i>
+            Sport
+            <select id="ev-sport">
+              <option value="">Select sport...</option>
+            </select>
+          </label>
+          <label>
+            <i class="fas fa-city"></i>
+            City
+            <input id="ev-city" placeholder="Mumbai" />
+          </label>
+          <label>
+            <i class="fas fa-map-pin"></i>
+            Area
+            <input id="ev-area" placeholder="Bandra West" />
+          </label>
+          <label>
+            <i class="fas fa-clock"></i>
+            Date & Time
+            <input id="ev-date" type="datetime-local" />
+          </label>
+          <label class="full">
+            <i class="fas fa-align-left"></i>
+            Description
+            <textarea id="ev-desc" placeholder="Surface type, requirements, equipment needed, etc."></textarea>
+          </label>
+        </div>
+        <div class="form-actions">
+          <button id="btn-add-event" class="primary">
+            <i class="fas fa-plus"></i> Add Event
+          </button>
+          <button id="btn-refresh-events" class="ghost-btn">
+            <i class="fas fa-sync-alt"></i> Refresh List
+          </button>
+          <button id="btn-show-all-events" class="ghost-btn">
+            <i class="fas fa-list"></i> Show All Events
+          </button>
+        </div>
+      </div>
+      
+      <div id="event-feedback" class="status compact" hidden></div>
+      <div id="events-list" class="admin-list"></div>
+    </section>
+
+    <!-- Management Sections Grid -->
+    <div class="admin-management-grid">
+      <section class="card admin-section">
+        <div class="section-head">
+          <div class="section-icon">
+            <i class="fas fa-trophy"></i>
+          </div>
+          <div class="section-info">
+            <h2>Sports Catalog</h2>
+            <p>Manage available sports categories</p>
+          </div>
+        </div>
+        <div class="admin-form">
+          <div class="form-row">
+            <input id="sport-name" placeholder="e.g. Badminton Doubles" />
+            <button id="btn-add-sport" class="primary">
+              <i class="fas fa-plus"></i> Add Sport
+            </button>
+          </div>
+        </div>
+        <div id="sports-list" class="list-grid"></div>
+      </section>
+
+      <section class="card admin-section">
+        <div class="section-head">
+          <div class="section-icon">
+            <i class="fas fa-city"></i>
+          </div>
+          <div class="section-info">
+            <h2>Cities</h2>
+            <p>Manage city directory</p>
+          </div>
+        </div>
+        <div class="admin-form">
+          <div class="form-row">
+            <input id="city-name" placeholder="e.g. Bengaluru" />
+            <button id="btn-add-city" class="primary">
+              <i class="fas fa-plus"></i> Add City
+            </button>
+          </div>
+        </div>
+        <div id="cities-list" class="list-grid"></div>
+      </section>
+
+      <section class="card admin-section">
+        <div class="section-head">
+          <div class="section-icon">
+            <i class="fas fa-map-pin"></i>
+          </div>
+          <div class="section-info">
+            <h2>Areas</h2>
+            <p>Manage areas by city</p>
+          </div>
+        </div>
+        <div class="admin-form">
+          <div class="grid two-col">
+            <label>
+              City
+              <select id="select-city-for-area">
+                <option value="">Select city...</option>
+              </select>
+            </label>
+            <label>
+              Area Name
+              <input id="area-name" placeholder="e.g. Koramangala" />
+            </label>
+          </div>
+          <div class="form-row">
+            <button id="btn-add-area" class="primary">
+              <i class="fas fa-plus"></i> Add Area
+            </button>
+          </div>
+        </div>
+        <div id="areas-list" class="list-grid"></div>
+      </section>
+    </div>
+  </main>
+
+  <script type="module">
+    import './js/firebase.js';
+    import { attachAdminHandlers } from './js/admin.js';
+    import { initUI } from './js/ui.js';
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+    import { auth, db } from "./js/firebase.js";
+    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+    // Hide content until verified
+    document.body.style.display = 'none';
+
+    // Strict Security Check with error handling
+    onAuthStateChanged(auth, async (user) => {
+      try {
+        if (!user) {
+          window.location.href = "login.html";
+          return;
+        }
+
+        const snap = await getDoc(doc(db, "users", user.uid));
+        if (!snap.exists()) {
+          console.error('User profile not found');
+          await auth.signOut();
+          window.location.href = "login.html";
+          return;
+        }
+
+        if (snap.data().role !== "admin") {
+          window.location.href = "home.html";
+          return;
+        }
+
+        // Only show page and attach handlers if admin
+        document.body.style.display = '';
+        attachAdminHandlers();
+        initUI();
+      } catch (error) {
+        console.error('Admin dashboard auth error:', error);
+        window.location.href = "login.html";
+      }
+    });
+  </script>
+</body>
+
+</html>
