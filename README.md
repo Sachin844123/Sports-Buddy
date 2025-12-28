@@ -129,8 +129,8 @@ firebase deploy
 ### 🔑 Login Credentials
 
 #### Admin Access
-- **Email**: admin@buddy.com
-- **Password**: admin123
+- **Email**: ayuahnavale29@gmail.com
+- **Password**: 200629
 - **Access**: Full admin dashboard with management capabilities
 
 #### Regular User Access
